@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  linter:
+    container_name: linter
+    image: golangci/golangci-lint:v1.55.2
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: >
+      bash -c 'ls && golangci-lint run --config ./build/.golangci.yml'
+
+  docs:
+    container_name: docs
+    image: ghcr.io/swaggo/swag:latest
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: >
+      bash -c 'echo "hello"'
