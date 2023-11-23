@@ -1,9 +1,11 @@
 package domain
 
-type Item struct {
-	ID     int64  `json:"id" redis:"id"`
-	Title  string `json:"name" redis:"name"`
-	Amount uint8  `json:"amount" redis:"amount"`
+import "github.com/google/uuid"
 
-	Category Category `json:"category"`
+type Item struct {
+	ID     uuid.UUID
+	Title  string
+	Amount uint8
+
+	Category Category
 }

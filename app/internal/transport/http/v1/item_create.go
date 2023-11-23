@@ -9,18 +9,17 @@ import (
 )
 
 func (t *Transport) ItemCreate(c *fiber.Ctx) error {
-	user := new(dto.UserCreateDtoRequest)
+	user := new(dto.ItemCreateRequest)
 
 	if err := c.BodyParser(user); err != nil {
 		log.Error().Msgf("Ошибка парсинга входящих данных: %v ", err)
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	id, err := t.user.CreateUser(c.Context(), *user)
+	id, err := t.item.CreateItem(c.Context(), *user)
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
-	response := dto.UserCreateDtoResponse{ID: id}
 
-	return c.Status(http.StatusOK).JSON(response)
+	return c.Status(http.StatusOK).JSON(dto.ItemCreateToResponse(id))
 }

@@ -1,9 +1,7 @@
-package domain
-
-import "github.com/google/uuid"
+package models
 
 type Category struct {
-	ID          uuid.UUID
+	ID          string
 	Title       string
 	Description string
 	Tag         string

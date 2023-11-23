@@ -43,15 +43,15 @@ func (t *Transport) Register() *fiber.App {
 */
 
 type Category interface {
-	CreateCategory(ctx context.Context, u dto.CategoryDtoRequest) (uint64, error)
-	ReadCategory(ctx context.Context, id uint64) (domain.Category, error)
-	UpdateCategory(ctx context.Context, u *dto.CategoryDtoRequest) error
-	DeleteCategory(ctx context.Context, id uint64) error
+	CreateCategory(ctx context.Context, c dto.CategoryCreateRequest) (uint64, error)
+	ReadCategory(ctx context.Context, c dto.CategoryReadRequest) (domain.Category, error)
+	UpdateCategory(ctx context.Context, c dto.CategoryUpdateRequest) error
+	DeleteCategory(ctx context.Context, c dto.CategoryDeleteRequest) error
 }
 
 type Item interface {
-	CreateItem(ctx context.Context, u dto.ItemCreateDtoRequest) (uint64, error)
-	ReadItem(ctx context.Context, id uint64) (domain.Item, error)
-	UpdateItem(ctx context.Context, u *dto.ItemUpdateDtoRequest) (uint64, error)
-	DeleteItem(ctx context.Context, id uint64) error
+	CreateItem(ctx context.Context, i dto.ItemCreateRequest) (uint64, error)
+	ReadItem(ctx context.Context, i dto.ItemReadRequest) (domain.Item, error)
+	UpdateItem(ctx context.Context, i dto.ItemUpdateRequest) error
+	DeleteItem(ctx context.Context, i dto.ItemDeleteRequest) error
 }

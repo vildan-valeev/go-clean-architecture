@@ -8,6 +8,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+/*
+Интерфейсы из инфры, удаленных сервисов, бд, и тд
+*/
+
 type (
 	Tx             = pgx.Tx
 	TxOptions      = pgx.TxOptions

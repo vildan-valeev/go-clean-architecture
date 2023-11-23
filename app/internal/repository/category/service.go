@@ -6,7 +6,6 @@ import (
 
 type Repository struct {
 	db repository.DB
-	rs repository.RedisCache
 }
 
 func New(db repository.DB) *Repository {

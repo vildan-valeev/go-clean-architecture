@@ -8,19 +8,17 @@ import (
 )
 
 func (t *Transport) ItemRead(c *fiber.Ctx) error {
-	user := new(dto.UserUpdateDtoRequest)
+	item := new(dto.ItemReadRequest)
 
-	if err := c.BodyParser(user); err != nil {
+	if err := c.BodyParser(item); err != nil {
 		log.Error().Msgf("Ошибка парсинга входящих данных: %v ", err)
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	age, err := t.user.UpdateUserInCache(c.Context(), user)
+	result, err := t.item.ReadItem(c.Context(), *item)
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	response := dto.UserUpdateDtoResponse{Value: age}
-
-	return c.Status(http.StatusOK).JSON(response)
+	return c.Status(http.StatusOK).JSON(dto.ItemReadToResponse(result))
 }

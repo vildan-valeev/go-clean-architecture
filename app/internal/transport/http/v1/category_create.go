@@ -9,17 +9,17 @@ import (
 )
 
 func (t *Transport) CategoryCreate(c *fiber.Ctx) error {
-	s := new(dto.CategoryDtoRequest)
+	s := new(dto.CategoryCreateRequest)
 
 	if err := c.BodyParser(s); err != nil {
 		log.Error().Msgf("Ошибка парсинга входящих данных: %v ", err)
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	sign, err := t.category.CreateCategory(c.Context(), *s)
+	result, err := t.category.CreateCategory(c.Context(), *s)
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	return c.Status(http.StatusOK).JSON(dto.ToDTO(sign))
+	return c.Status(http.StatusOK).JSON(dto.CategoryCreateToResponse(result))
 }

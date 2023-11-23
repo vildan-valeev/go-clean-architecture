@@ -9,17 +9,17 @@ import (
 )
 
 func (t *Transport) CategoryDelete(c *fiber.Ctx) error {
-	s := new(dto.)
+	s := new(dto.CategoryDeleteRequest)
 
 	if err := c.BodyParser(s); err != nil {
 		log.Error().Msgf("Ошибка парсинга входящих данных: %v ", err)
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	sign, err := t.sign.Sign(c.Context(), *s)
+	err := t.category.DeleteCategory(c.Context(), *s)
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	return c.Status(http.StatusOK).JSON(dto.ToDTO(sign))
+	return c.Status(http.StatusOK).JSON(dto.CategoryDeleteToResponse())
 }

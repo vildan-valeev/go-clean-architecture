@@ -1,20 +1,54 @@
 package dto
 
-type ItemUpdateDtoRequest struct {
-	ID    int64  `json:"id,omitempty"`
-	Key   string `json:"key,omitempty"`
-	Value uint8  `json:"value,omitempty"`
+import (
+	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
+	"strconv"
+)
+
+type ItemCreateRequest struct {
+	ID    string `json:"id,omitempty"`
+	Title string `json:"title"`
 }
 
-type ItemUpdateDtoResponse struct {
-	Value uint8 `json:"value"`
+type ItemCreateResponse struct {
+	ID string `json:"Code"`
 }
 
-type ItemCreateDtoRequest struct {
-	Name string `json:"name"`
-	Age  uint8  `json:"age"`
+func ItemCreateToResponse(c uint64) ItemCreateResponse {
+	return ItemCreateResponse{
+		ID: strconv.FormatUint(c, 10),
+	}
 }
 
-type ItemCreateDtoResponse struct {
-	ID int64 `json:"id"`
+type ItemDeleteRequest struct {
+	ID string `json:"id"`
+}
+
+type ItemDeleteResponse struct {
+}
+
+func ItemDeleteToResponse() ItemDeleteResponse {
+	return ItemDeleteResponse{}
+}
+
+type ItemUpdateRequest struct {
+	ID string `json:"id"`
+}
+
+type ItemUpdateResponse struct {
+}
+
+func ItemUpdateToResponse() ItemUpdateResponse {
+	return ItemUpdateResponse{}
+}
+
+type ItemReadRequest struct {
+	ID string `json:"id"`
+}
+
+type ItemReadResponse struct {
+}
+
+func ItemReadToResponse(i domain.Item) ItemReadResponse {
+	return ItemReadResponse{}
 }
