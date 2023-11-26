@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   dto.CategoryCreateResponse:
     properties:
@@ -6,8 +7,18 @@ definitions:
     type: object
   dto.Response:
     type: object
+host: localhost:8000
 info:
-  contact: {}
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: This is a sample swagger for Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
 paths:
   /api/vi/healthcheck/:
     get:

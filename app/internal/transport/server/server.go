@@ -1,4 +1,3 @@
-// Package httpserver implements HTTP server.
 package server
 
 import (
@@ -11,7 +10,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/vildan-valeev/go-clean-architecture/pkg/logger"
 
-	_ "github.com/swaggo/fiber-swagger/example/docs"
 	"github.com/vildan-valeev/go-clean-architecture/internal/config"
 	"net"
 )
@@ -21,7 +19,6 @@ type Server struct {
 	config config.Config
 }
 
-// New returns a new instance of Server.
 func New(cfg config.Config, handlers *fiber.App) *Server {
 	s := &Server{
 		config: cfg,
@@ -33,33 +30,13 @@ func New(cfg config.Config, handlers *fiber.App) *Server {
 		DisableKeepalive:      true,
 	})
 	// TODO: s.http.Group...
-	//docs.SwaggerInfo.Title = "Clean Architecture API"
-	//docs.SwaggerInfo.Description = "This is a sample server."
-	//docs.SwaggerInfo.Version = "1.0"
-	//docs.SwaggerInfo.Host = "localhost:8000"
-	//docs.SwaggerInfo.BasePath = ""
-	//docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
 	s.http.Use(favicon.New())
 	s.http.Use(requestid.New())
 	s.http.Use(logger.Middleware())
 	s.http.Use(cors.New())
 	s.http.Use(compress.New(compress.Config{Level: compress.LevelBestSpeed}))
-	//s.http.Get("/swagger/*", swagger.HandlerDefault) // default
-
-	s.http.Get("/swagger/*", swagger.New(swagger.Config{ // custom
-		URL:         "http://localhost:8000/swagger/doc.json",
-		DeepLinking: false,
-		// Expand ("list") or Collapse ("none") tag groups by default
-		DocExpansion: "none",
-		// Prefill OAuth ClientId on Authorize popup
-		//OAuth: &swagger.OAuthConfig{
-		//	AppName:  "OAuth Provider",
-		//	ClientId: "21bb4edc-05a7-4afc-86f1-2e151e4ba6e2",
-		//},
-		//// Ability to change OAuth2 redirect uri location
-		//OAuth2RedirectUrl: "http://localhost:8080/swagger/oauth2-redirect.html",
-	}))
+	s.http.Get("/swagger/*", swagger.HandlerDefault) // default
 
 	// TODO: s.http.Group...
 	s.http.Mount("/", handlers)

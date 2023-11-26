@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	_ "github.com/vildan-valeev/go-clean-architecture/docs"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
 	"github.com/vildan-valeev/go-clean-architecture/internal/transport/dto"
 )
@@ -17,6 +18,17 @@ type DI struct {
 	Item     Item
 }
 
+// NewTransport
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample swagger for Fiber
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email fiber@swagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8000
+// @BasePath /
 func NewTransport(di DI) *Transport {
 	return &Transport{
 		item:     di.Item,
