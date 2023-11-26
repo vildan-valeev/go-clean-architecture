@@ -8,7 +8,7 @@ up:
 
 .PHONY: up_local_infra
 up_local_infra:
-	docker compose -f docker-compose.dev.yml up --build
+	docker compose -f docker-compose.dev.yml up --build --remove-orphans
 
 .PHONY: migrate
 migrate:
@@ -31,3 +31,8 @@ test_race:
 .PHONY: generate
 generate:
 	cd app && go generate ./...
+
+.PHONY: docs
+docs: ### swag init
+	cd app && swag init -g internal/transport/http/v1/api.go --output docs
+

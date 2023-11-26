@@ -8,6 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// @Summary     Show history
+// @Description Show all translation history
+// @ID          history
+// @Tags  	    translation
+// @Accept      json
+// @Produce     json
+// @Success     200 {object} historyResponse
+// @Failure     500 {object} response
+// @Router      /translation/history [get]
+
 func (t *Transport) CategoryCreate(c *fiber.Ctx) error {
 	s := new(dto.CategoryCreateRequest)
 
