@@ -2,41 +2,75 @@ package pg
 
 import (
 	"context"
-	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
+	"github.com/google/uuid"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository"
+	"github.com/vildan-valeev/go-clean-architecture/internal/repository/models"
 )
 
-func DeleteItem(ctx context.Context, db repository.DB, u uint64) error {
-	return nil
-}
-
-func GetItem(ctx context.Context, db repository.DB, u uint64) (domain.Item, error) {
-	return domain.Item{}, nil
-}
-
-func UpdateItem(ctx context.Context, db repository.DB, u domain.Item) error {
-	return nil
-}
-
-func InsertItem(ctx context.Context, db repository.DB, u domain.Item) (int64, error) {
-	var id int64
+func InsertItem(ctx context.Context, db repository.DB, u models.Item) error {
 
 	tx, err := db.Begin(ctx)
 	if err != nil {
-		return id, err
+		return err
 	}
 
 	defer func() {
 		_ = tx.Rollback(ctx)
 	}()
 
-	if err := tx.QueryRow(ctx,
-		`INSERT INTO items (name, age) VALUES ($1, $2) ON CONFLICT ON CONSTRAINT users_pkey DO UPDATE SET name=EXCLUDED.name, age=EXCLUDED.age RETURNING id`,
-		u.Name,
-		u.Age,
-	).Scan(&id); err != nil {
-		return id, err
+	if _, err := tx.Exec(ctx,
+		`INSERT INTO items (id, title, amount, category) VALUES ($1, $2, $3, $4) ON CONFLICT ON CONSTRAINT items_pkey DO UPDATE SET title=EXCLUDED.title, amount=EXCLUDED.amount`,
+		u.ID,
+		u.Title,
+		u.Amount,
+		u.CategoryID,
+	); err != nil {
+		return err
 	}
 
-	return id, tx.Commit(ctx)
+	return tx.Commit(ctx)
+}
+
+func GetItem(ctx context.Context, db repository.DB, id uuid.UUID) (models.Item, error) {
+	return models.Item{}, nil
+}
+
+func UpdateItem(ctx context.Context, db repository.DB, i models.Item) error {
+	tx, err := db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		_ = tx.Rollback(ctx)
+	}()
+
+	_, err = tx.Exec(ctx,
+		`UPDATE items SET "title" = $1, "amount" = $2 WHERE id = $3`,
+		i.Title,
+		i.Amount,
+		i.ID,
+	)
+
+	return err
+}
+
+func DeleteItem(ctx context.Context, db repository.DB, id uuid.UUID) error {
+	tx, err := db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		_ = tx.Rollback(ctx)
+	}()
+
+	if _, err := tx.Exec(ctx,
+		`DELETE FROM items WHERE id = $1`,
+		id,
+	); err != nil {
+		return err
+	}
+
+	return tx.Commit(ctx)
 }

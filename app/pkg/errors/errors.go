@@ -16,7 +16,7 @@ const (
 	FailedPrecondition = "failed_precondition"
 	Aborted            = "aborted"
 	OutOfRange         = "out_of_range"
-	NotFoundUser       = "not_found_user"
+	NotFoundUser       = "not_found_item"
 )
 
 // Error represents an application-specific error. Application errors can be

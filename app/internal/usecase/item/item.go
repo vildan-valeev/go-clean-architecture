@@ -2,22 +2,22 @@ package item
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
-	"github.com/vildan-valeev/go-clean-architecture/internal/repository/models"
 	"github.com/vildan-valeev/go-clean-architecture/internal/transport/dto"
 )
 
 // Repository - методы для работы с БД (интерфейс реализован в слое репо).
 type Repository interface {
-	InsertItemDB(ctx context.Context, u domain.Item) (id string, err error)
-	UpdateItemDB(ctx context.Context, u domain.Item) error
-	GetItemDB(ctx context.Context, id uint64) (models.Item, error)
-	DeleteItemDB(ctx context.Context, id uint64) error
+	InsertItemDB(ctx context.Context, i domain.Item) error
+	UpdateItemDB(ctx context.Context, i domain.Item) error
+	GetItemDB(ctx context.Context, id uuid.UUID) (domain.Item, error)
+	DeleteItemDB(ctx context.Context, id uuid.UUID) error
 
-	InsertItemRS(ctx context.Context, u domain.Item) (id string, err error)
-	UpdateItemRS(ctx context.Context, u domain.Item) error
-	GetItemRS(ctx context.Context, id uint64) (models.Item, error)
-	DeleteItemRS(ctx context.Context, id uint64) error
+	InsertItemRS(ctx context.Context, i domain.Item) error
+	UpdateItemRS(ctx context.Context, i domain.Item) error
+	GetItemRS(ctx context.Context, id uuid.UUID) (domain.Item, error)
+	DeleteItemRS(ctx context.Context, id uuid.UUID) error
 }
 
 // Service - бизнес логика.
@@ -32,9 +32,9 @@ func New(db Repository) *Service {
 }
 
 // CreateItem Создание записи.
-func (s Service) CreateItem(ctx context.Context, i dto.ItemCreateRequest) (uint64, error) {
+func (s Service) CreateItem(ctx context.Context, i dto.ItemCreateRequest) (uuid.UUID, error) {
 
-	return 0, nil
+	return uuid.New(), nil
 }
 
 // ReadItem Получение записи.

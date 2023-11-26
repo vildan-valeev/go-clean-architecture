@@ -2,22 +2,23 @@ package main
 
 import (
 	"context"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/rs/zerolog/log"
+
 	"github.com/vildan-valeev/go-clean-architecture/internal/config"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository"
 	categoryRepo "github.com/vildan-valeev/go-clean-architecture/internal/repository/category"
 	itemRepo "github.com/vildan-valeev/go-clean-architecture/internal/repository/item"
 	v1 "github.com/vildan-valeev/go-clean-architecture/internal/transport/http/v1"
+	"github.com/vildan-valeev/go-clean-architecture/internal/transport/server"
 	"github.com/vildan-valeev/go-clean-architecture/internal/usecase/category"
 	"github.com/vildan-valeev/go-clean-architecture/internal/usecase/item"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database"
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg"
 	redis "github.com/vildan-valeev/go-clean-architecture/pkg/database_redis"
-
-	"github.com/vildan-valeev/go-clean-architecture/internal/transport/server"
 	"github.com/vildan-valeev/go-clean-architecture/pkg/logger"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 func main() {
@@ -81,7 +82,7 @@ func (m *Main) Run(ctx context.Context) (err error) {
 	cfg := config.NewConfig()
 	logger.SetupLoggingLevel(cfg.LogLevel)
 
-	m.db = database.New(cfg.DSN, cfg.LogLevel)
+	m.db = database_pg.New(cfg.DSN, cfg.LogLevel)
 
 	m.rs = redis.New(cfg.RedisHost, cfg.RedisPort)
 

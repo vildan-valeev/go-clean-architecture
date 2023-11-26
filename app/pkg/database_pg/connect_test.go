@@ -1,4 +1,4 @@
-package database_test
+package database_pg_test
 
 import (
 	"context"
@@ -11,11 +11,11 @@ import (
 func TestNewPooll(t *testing.T) {
 	ctx := context.Background()
 	dataSourceName := os.Getenv("TN_TEST_DSN")
-	opts := []database.Option{
-		database.WithLogLevel("debug"),
+	opts := []database_pg.Option{
+		database_pg.WithLogLevel("debug"),
 	}
 
-	got, err := database.NewPool(ctx, dataSourceName, opts...)
+	got, err := database_pg.NewPool(ctx, dataSourceName, opts...)
 	if err != nil {
 		t.Error(err)
 		return

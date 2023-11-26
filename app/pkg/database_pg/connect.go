@@ -1,9 +1,9 @@
-package database
+package database_pg
 
 import (
 	"context"
 	"fmt"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database/uuid"
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/uuid"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

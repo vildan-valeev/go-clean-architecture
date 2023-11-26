@@ -2,22 +2,14 @@ package user
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository/infra/pg"
+	"github.com/vildan-valeev/go-clean-architecture/internal/repository/models"
 )
 
-func (r Repository) InsertCategoryDB(ctx context.Context, u domain.Category) (id string, err error) {
-
-	id, err = pg.InsertCategory(ctx, r.db, u)
-	if err != nil {
-		return id, err
-	}
-
-	return id, nil
-}
-
-func (r Repository) UpdateCategoryDB(ctx context.Context, u domain.Category) error {
-	err := pg.UpdateCategory(ctx, r.db, u)
+func (r Repository) InsertCategoryDB(ctx context.Context, c domain.Category) error {
+	err := pg.InsertCategory(ctx, r.db, models.CategoryToCreateDTO(c))
 	if err != nil {
 		return err
 	}
@@ -25,16 +17,25 @@ func (r Repository) UpdateCategoryDB(ctx context.Context, u domain.Category) err
 	return nil
 }
 
-func (r Repository) GetCategoryDB(ctx context.Context, id uint64) (domain.Category, error) {
-	err := pg.GetCategory(ctx, r.db, id)
+func (r Repository) UpdateCategoryDB(ctx context.Context, c domain.Category) error {
+	err := pg.UpdateCategory(ctx, r.db, models.CategoryToUpdateDTO(c))
 	if err != nil {
-		return domain.Item{}, err
+		return err
 	}
 
-	return domain.Item{}, nil
+	return nil
 }
 
-func (r Repository) DeleteCategoryDB(ctx context.Context, id uint64) error {
+func (r Repository) GetCategoryDB(ctx context.Context, id uuid.UUID) (domain.Category, error) {
+	cat, err := pg.GetCategory(ctx, r.db, id)
+	if err != nil {
+		return domain.Category{}, err
+	}
+
+	return models.CategoryFromGetDTO(cat), nil
+}
+
+func (r Repository) DeleteCategoryDB(ctx context.Context, id uuid.UUID) error {
 	err := pg.DeleteCategory(ctx, r.db, id)
 	if err != nil {
 		return err

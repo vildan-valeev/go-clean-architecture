@@ -1,8 +1,8 @@
 package dto
 
 import (
+	"github.com/google/uuid"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
-	"strconv"
 )
 
 type ItemCreateRequest struct {
@@ -14,9 +14,9 @@ type ItemCreateResponse struct {
 	ID string `json:"Code"`
 }
 
-func ItemCreateToResponse(c uint64) ItemCreateResponse {
+func ItemCreateToResponse(id uuid.UUID) ItemCreateResponse {
 	return ItemCreateResponse{
-		ID: strconv.FormatUint(c, 10),
+		ID: id.String(),
 	}
 }
 

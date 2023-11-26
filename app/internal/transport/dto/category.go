@@ -1,22 +1,23 @@
 package dto
 
 import (
+	"github.com/google/uuid"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
-	"strconv"
 )
 
 type CategoryCreateRequest struct {
-	ID    string `json:"id,omitempty"`
-	Title string `json:"title"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Tag         string `json:"tag"`
 }
 
 type CategoryCreateResponse struct {
-	ID string `json:"Code"`
+	ID string `json:"id"`
 }
 
-func CategoryCreateToResponse(c uint64) CategoryCreateResponse {
+func CategoryCreateToResponse(id uuid.UUID) CategoryCreateResponse {
 	return CategoryCreateResponse{
-		ID: strconv.FormatUint(c, 10),
+		ID: id.String(),
 	}
 }
 
@@ -32,7 +33,10 @@ func CategoryDeleteToResponse() CategoryDeleteResponse {
 }
 
 type CategoryUpdateRequest struct {
-	ID string `json:"id"`
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Tag         string `json:"tag"`
 }
 
 type CategoryUpdateResponse struct {
@@ -47,8 +51,15 @@ type CategoryReadRequest struct {
 }
 
 type CategoryReadResponse struct {
+	title       string `json:"title"`
+	description string `json:"description"`
+	tag         string `json:"tag"`
 }
 
 func CategoryReadToResponse(c domain.Category) CategoryReadResponse {
-	return CategoryReadResponse{}
+	return CategoryReadResponse{
+		title:       c.Title,
+		description: c.Description,
+		tag:         c.Tag,
+	}
 }
