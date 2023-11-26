@@ -17,8 +17,8 @@ services:
     ports:
       - "5432:5432"
 
-  cache:
-    container_name: melvad_cache
+  redis:
+    container_name: rs
     image: redis:7.2.2
     env_file:
       - dev.env

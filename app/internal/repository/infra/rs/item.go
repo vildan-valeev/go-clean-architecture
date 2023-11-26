@@ -7,20 +7,19 @@ import (
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository/models"
-	"strconv"
 )
 
-func InsertItemRS(ctx context.Context, u domain.Item) error {
+func InsertItemRS(ctx context.Context, rdb repository.RedisCache, u domain.Item) error {
 	return nil
 }
 
-func UpdateItem(ctx context.Context, rdb repository.RedisCache, u domain.Item) error {
-	id := strconv.FormatInt(u.ID, 10) // тупое решение...
-
+func UpdateItem(ctx context.Context, rdb repository.RedisCache, i domain.Item) error {
+	id := i.ID.String()
 	if _, err := rdb.Pipelined(ctx, func(rdb redis.Pipeliner) error {
-		rdb.HSet(ctx, id, "id", u.ID)
-		rdb.HSet(ctx, id, "name", u.Name)
-		rdb.HSet(ctx, id, "age", u.Age)
+		rdb.HSet(ctx, id, "id", id)
+		rdb.HSet(ctx, id, "title", i.Title)
+		rdb.HSet(ctx, id, "amount", i.Amount)
+		rdb.HSet(ctx, id, "category_id", i.Category.ID)
 
 		return nil
 	}); err != nil {

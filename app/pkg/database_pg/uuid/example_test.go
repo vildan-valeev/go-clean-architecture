@@ -4,10 +4,10 @@ import (
 	"context"
 	"os"
 
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database/uuid"
-
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/uuid"
 )
 
 func ExampleMain() {

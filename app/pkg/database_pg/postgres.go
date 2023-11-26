@@ -2,11 +2,12 @@ package database_pg
 
 import (
 	"context"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/zerologadapter"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/zerologadapter"
 )
 
 // db represents the database connection.

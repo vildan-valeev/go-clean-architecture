@@ -5,12 +5,12 @@ import (
 	"os"
 	"testing"
 
-	pgxuuid "github.com/vildan-valeev/go-clean-architecture/pkg/database/uuid"
-
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxtest"
 	"github.com/stretchr/testify/require"
+
+	pgxuuid "github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/uuid"
 )
 
 var defaultConnTestRunner pgxtest.ConnTestRunner

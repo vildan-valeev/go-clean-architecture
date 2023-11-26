@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database"
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg"
 )
 
 func TestNewPooll(t *testing.T) {

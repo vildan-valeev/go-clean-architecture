@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5/tracelog"
 	"github.com/rs/zerolog"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database/zerologadapter"
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/zerologadapter"
 )
 
 func TestLogger(t *testing.T) {

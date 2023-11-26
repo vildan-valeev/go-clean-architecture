@@ -15,10 +15,10 @@ migrate:
 	cd migrations && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./migration .
 	cd migrations && ./migration
 
-.PHONY: up_local_app
-up_local_app:
+.PHONY: up_local
+up_local:
 	cd app && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./build/main ./cmd/app/main.go
-	cd app && ./build/main -host=localhost -port=6379
+	cd app && ./build/main
 
 .PHONY: test
 test:

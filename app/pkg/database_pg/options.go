@@ -2,6 +2,7 @@ package database_pg
 
 import (
 	"github.com/jackc/pgx/v5/tracelog"
+
 	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/zerologadapter"
 )
 
