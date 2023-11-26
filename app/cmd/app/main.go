@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
+	"github.com/rs/zerolog/log"
+	"github.com/vildan-valeev/go-clean-architecture/pkg/logger"
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/rs/zerolog/log"
 
 	"github.com/vildan-valeev/go-clean-architecture/internal/config"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository"
@@ -18,10 +18,9 @@ import (
 	"github.com/vildan-valeev/go-clean-architecture/internal/usecase/item"
 	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg"
 	redis "github.com/vildan-valeev/go-clean-architecture/pkg/database_redis"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/logger"
 )
 
-// @title Fiber Example API
+// @title Swagger Example API
 // @version 1.0
 // @description This is a sample swagger for Fiber
 // @termsOfService http://swagger.io/terms/
@@ -29,7 +28,7 @@ import (
 // @contact.email fiber@swagger.io
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8080
+// @host localhost:8000
 // @BasePath /
 
 func main() {

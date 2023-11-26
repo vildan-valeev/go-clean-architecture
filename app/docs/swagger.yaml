@@ -1,9 +1,48 @@
-basePath: /v1
-host: localhost:8080
+definitions:
+  dto.CategoryCreateResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  dto.Response:
+    type: object
 info:
   contact: {}
-  description: Using a translation service as an example
-  title: Go Clean Template API
-  version: "1.0"
-paths: {}
+paths:
+  /api/vi/healthcheck/:
+    get:
+      consumes:
+      - application/json
+      description: Проверка сервера.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - root
+  /category:
+    post:
+      consumes:
+      - application/json
+      description: Show all translation history
+      operationId: history
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CategoryCreateResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Show history
+      tags:
+      - category
 swagger: "2.0"

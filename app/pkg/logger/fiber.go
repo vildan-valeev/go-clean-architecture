@@ -145,7 +145,7 @@ func (lf *logFields) MarshalZerologObject(e *zerolog.Event) {
 		Int("status_code", lf.StatusCode).
 		Float64("latency", lf.Latency).
 		Str("tag", "request")
-		// Bytes("body", lf.Body)
+	// Bytes("body", lf.Body)
 
 	if lf.Error != nil {
 		e.Err(lf.Error)
