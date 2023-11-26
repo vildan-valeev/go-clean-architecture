@@ -28,7 +28,7 @@ type DI struct {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:8000
-// @BasePath /
+// @BasePath /v1
 func NewTransport(di DI) *Transport {
 	return &Transport{
 		item:     di.Item,
@@ -47,6 +47,8 @@ func (t *Transport) Register() *fiber.App {
 	app.Get("/category", t.CategoryRead)
 	app.Delete("/category", t.CategoryDelete)
 	app.Post("/category", t.CategoryUpdate)
+
+	app.Post("/healthcheck", HealthCheck)
 
 	return app
 }

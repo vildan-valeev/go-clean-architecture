@@ -2,7 +2,9 @@ DROP TABLE IF EXISTS items, categories cascade;
 
 create table categories
 (
-    "id"            uuid    not null unique,
+    "id"            uuid    not null
+        constraint categories_pk
+            primary key,
     "title"         text    not null,
     "description"   text     not null,
     "tag"           text    not null

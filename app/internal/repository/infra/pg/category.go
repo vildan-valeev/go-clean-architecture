@@ -19,7 +19,7 @@ func InsertCategory(ctx context.Context, db repository.DB, u models.Category) er
 	}()
 
 	if _, err := tx.Exec(ctx,
-		`INSERT INTO categories (id, title, description, tag) VALUES ($1, $2, $3, $4) ON CONFLICT ON CONSTRAINT categories_pkey DO UPDATE SET title=EXCLUDED.title, amount=EXCLUDED.description, tag=EXCLUDED.tag`,
+		`INSERT INTO categories (id, title, description) VALUES ($1, $2, $3, $4) ON CONFLICT ON CONSTRAINT categories_pk DO UPDATE SET title=EXCLUDED.title, description=EXCLUDED.description, tag=EXCLUDED.tag`,
 		u.ID,
 		u.Title,
 		u.Description,

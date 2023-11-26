@@ -1,8 +1,12 @@
-basePath: /
+basePath: /v1
 definitions:
-  dto.CategoryCreateResponse:
+  dto.CategoryCreateRequest:
     properties:
-      id:
+      description:
+        type: string
+      tag:
+        type: string
+      title:
         type: string
     type: object
   dto.Response:
@@ -20,7 +24,27 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /api/vi/healthcheck/:
+  /category/create:
+    post:
+      consumes:
+      - application/json
+      description: Show all translation history
+      operationId: history
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CategoryCreateRequest'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Show history
+      tags:
+      - category
+  /healthcheck:
     get:
       consumes:
       - application/json
@@ -36,24 +60,4 @@ paths:
       summary: Show the status of server.
       tags:
       - root
-  /category:
-    post:
-      consumes:
-      - application/json
-      description: Show all translation history
-      operationId: history
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.CategoryCreateResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dto.Response'
-      summary: Show history
-      tags:
-      - category
 swagger: "2.0"

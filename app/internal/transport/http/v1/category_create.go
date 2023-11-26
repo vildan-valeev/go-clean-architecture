@@ -16,9 +16,9 @@ import (
 // @Tags  	    category
 // @Accept      json
 // @Produce     json
-// @Success     200 {object} dto.CategoryCreateResponse
+// @Success     200 {object} dto.CategoryCreateRequest
 // @Failure     500 {object} dto.Response
-// @Router      /category [post]
+// @Router      /category/create [post]
 func (t *Transport) CategoryCreate(c *fiber.Ctx) error {
 	s := new(dto.CategoryCreateRequest)
 

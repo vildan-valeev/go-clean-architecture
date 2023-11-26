@@ -27,7 +27,18 @@ func New(db Repository) *Service {
 
 // CreateCategory Создание категории.
 func (s Service) CreateCategory(ctx context.Context, c dto.CategoryCreateRequest) (uuid.UUID, error) {
-	return uuid.New(), nil
+	id := uuid.New()
+	err := s.db.InsertCategoryDB(ctx, domain.Category{
+		ID:          uuid.New(),
+		Title:       c.Title,
+		Description: c.Description,
+		Tag:         c.Tag,
+	})
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	return id, nil
 }
 
 // ReadCategory Получение категории.

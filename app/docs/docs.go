@@ -23,7 +23,37 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/vi/healthcheck/": {
+        "/category/create": {
+            "post": {
+                "description": "Show all translation history",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Show history",
+                "operationId": "history",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CategoryCreateRequest"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
             "get": {
                 "description": "Проверка сервера.",
                 "consumes": [
@@ -46,43 +76,19 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/category": {
-            "post": {
-                "description": "Show all translation history",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "category"
-                ],
-                "summary": "Show history",
-                "operationId": "history",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.CategoryCreateResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dto.Response"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
-        "dto.CategoryCreateResponse": {
+        "dto.CategoryCreateRequest": {
             "type": "object",
             "properties": {
-                "id": {
+                "description": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -97,7 +103,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8000",
-	BasePath:         "/",
+	BasePath:         "/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
 	Description:      "This is a sample swagger for Fiber",

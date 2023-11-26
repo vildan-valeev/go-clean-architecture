@@ -14,7 +14,7 @@ import (
 // @Accept 		json
 // @Produce 	json
 // @Success 	200 {object} 			map[string]interface{}
-// @Router 		/api/vi/healthcheck/ 	[get]
+// @Router 		/healthcheck 	[get]
 func HealthCheck(c *fiber.Ctx) error {
 	res := map[string]interface{}{
 		"Status": "Server is up and ready to work!",

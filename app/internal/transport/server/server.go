@@ -39,7 +39,7 @@ func New(cfg config.Config, handlers *fiber.App) *Server {
 	s.http.Get("/swagger/*", swagger.HandlerDefault) // default
 
 	// TODO: s.http.Group...
-	s.http.Mount("/", handlers)
+	s.http.Mount("/v1", handlers)
 
 	return s
 }
