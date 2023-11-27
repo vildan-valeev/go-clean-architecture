@@ -10,6 +10,10 @@ up:
 up_local_infra:
 	docker compose -f docker-compose.dev.yml up --build --remove-orphans
 
+.PHONY: down_local_infra
+down_local_infra:
+	docker compose -f docker-compose.dev.yml down
+
 .PHONY: migrate
 migrate:
 	cd migrations && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./migration .

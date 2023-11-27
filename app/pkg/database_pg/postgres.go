@@ -5,7 +5,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/zerologadapter"
+	"github.com/rs/zerolog"
 )
 
 // db represents the database connection.
@@ -27,7 +27,7 @@ func New(dsn, level string) *db {
 // Open opens the database connection.
 func (db *db) Open(ctx context.Context) (err error) {
 	//l := zerologadapter.NewContextLogger(zerologadapter.WithoutPGXModule())
-	l := zerologadapter.NewContextLogger()
+	l := zerolog.New()
 
 	// NewPool to the database.
 	db.pool, err = NewPool(ctx, db.dsn, WithLogger(l), WithLogLevel(db.level))
