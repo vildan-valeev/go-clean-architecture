@@ -24,12 +24,12 @@ func (t *Transport) CategoryCreate(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(s); err != nil {
 		log.Error().Msgf("Ошибка парсинга входящих данных: %v ", err)
-		return c.SendStatus(http.StatusBadRequest)
+		return errorResponse(c, err)
 	}
 
 	result, err := t.category.CreateCategory(c.Context(), *s)
 	if err != nil {
-		return c.SendStatus(http.StatusBadRequest)
+		return errorResponse(c, err)
 	}
 
 	return c.Status(http.StatusOK).JSON(dto.CategoryCreateToResponse(result))
