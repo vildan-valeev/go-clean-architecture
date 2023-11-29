@@ -79,7 +79,6 @@ func NewMain() *Main {
 // calling this function.
 func (m *Main) Run(ctx context.Context) (err error) {
 	cfg := config.NewConfig()
-	logger.SetupLoggingLevel(cfg.LogLevel)
 
 	m.db = database_pg.New(cfg.DSN, cfg.LogLevel)
 

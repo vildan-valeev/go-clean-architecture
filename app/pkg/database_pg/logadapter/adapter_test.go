@@ -1,9 +1,9 @@
-package zerologadapter_test
+package logadapter_test
 
 import (
 	"bytes"
 	"context"
-	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/zerologadapter"
+	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg/logadapter"
 	"testing"
 
 	"github.com/jackc/pgx/v5/tracelog"
@@ -14,7 +14,7 @@ func TestLogger(t *testing.T) {
 	t.Run("default", func(t *testing.T) {
 		var buf bytes.Buffer
 		zlogger := zerolog.New(&buf)
-		logger := zerologadapter.NewLogger(zlogger)
+		logger := logadapter.NewLogger(zlogger)
 		logger.Log(context.Background(), tracelog.LogLevelInfo, "hello", map[string]interface{}{"one": "two"})
 		const want = `{"level":"info","module":"pgx","one":"two","message":"hello"}
 `
@@ -27,7 +27,7 @@ func TestLogger(t *testing.T) {
 	t.Run("disable pgx module", func(t *testing.T) {
 		var buf bytes.Buffer
 		zlogger := zerolog.New(&buf)
-		logger := zerologadapter.NewLogger(zlogger, zerologadapter.WithoutPGXModule())
+		logger := logadapter.NewLogger(zlogger, logadapter.WithoutPGXModule())
 		logger.Log(context.Background(), tracelog.LogLevelInfo, "hello", nil)
 		const want = `{"level":"info","message":"hello"}
 `
@@ -41,7 +41,7 @@ func TestLogger(t *testing.T) {
 		var buf bytes.Buffer
 		zlogger := zerolog.New(&buf)
 		ctx := zlogger.WithContext(context.Background())
-		logger := zerologadapter.NewContextLogger()
+		logger := logadapter.NewContextLogger()
 		logger.Log(ctx, tracelog.LogLevelInfo, "hello", map[string]interface{}{"one": "two"})
 		const want = `{"level":"info","module":"pgx","one":"two","message":"hello"}
 `
@@ -58,8 +58,8 @@ func TestLogger(t *testing.T) {
 	type key string
 	var ck key
 	zlogger := zerolog.New(&buf)
-	logger := zerologadapter.NewLogger(zlogger,
-		zerologadapter.WithContextFunc(func(ctx context.Context, logWith zerolog.Context) zerolog.Context {
+	logger := logadapter.NewLogger(zlogger,
+		logadapter.WithContextFunc(func(ctx context.Context, logWith zerolog.Context) zerolog.Context {
 			// You can use zerolog.hlog.IDFromCtx(ctx) or even
 			// zerolog.log.Ctx(ctx) to fetch the whole logger instance from the
 			// context if you want.

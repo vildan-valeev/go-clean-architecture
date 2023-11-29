@@ -40,6 +40,7 @@ func detectTerminalAttached() {
 			Out:        os.Stdout,
 			TimeFormat: time.RFC3339,
 		}
-		log.Logger = zerolog.New(output).With().Timestamp().Caller().Logger()
+		log.Logger = zerolog.New(output).With().Timestamp().CallerWithSkipFrameCount(2).Logger()
+		log.Logger = zerolog.New(output).With().Timestamp().Logger()
 	}
 }

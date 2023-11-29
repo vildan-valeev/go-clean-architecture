@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"github.com/google/uuid"
-	"github.com/rs/zerolog/log"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository/infra/pg"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository/models"
@@ -12,7 +11,7 @@ import (
 func (r Repository) InsertCategoryDB(ctx context.Context, c domain.Category) error {
 	err := pg.InsertCategory(ctx, r.db, models.CategoryToCreateDTO(c))
 	if err != nil {
-		log.Error().Msgf("ERROR: %s", err)
+		//log.Error().Msgf("ERROR: %s", err)
 		return err
 	}
 

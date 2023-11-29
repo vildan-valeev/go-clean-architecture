@@ -1,5 +1,5 @@
 // Package zerolog provides a logger that writes to a github.com/rs/zerolog.
-package zerologadapter
+package logadapter
 
 import (
 	"context"

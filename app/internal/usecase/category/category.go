@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
-	"github.com/vildan-valeev/go-clean-architecture/internal/domain/apperror"
 	"github.com/vildan-valeev/go-clean-architecture/internal/transport/dto"
 )
 
@@ -28,19 +27,20 @@ func New(db Repository) *Service {
 
 // CreateCategory Создание категории.
 func (s Service) CreateCategory(ctx context.Context, c dto.CategoryCreateRequest) (uuid.UUID, error) {
-	return uuid.Nil, apperror.New(apperror.BadRequest, apperror.ErrorInvalidID)
-	//id := uuid.New()
-	//err := s.db.InsertCategoryDB(ctx, domain.Category{
-	//	ID:          uuid.New(),
-	//	Title:       c.Title,
-	//	Description: c.Description,
-	//	Tag:         c.Tag,
-	//})
-	//if err != nil {
-	//	return uuid.Nil, apperror.New(apperror.BadRequest, apperror.ErrorInvalidID)
-	//}
-	//
-	//return id, nil
+	//return uuid.Nil, apperror.New(apperror.BadRequest, apperror.ErrorInvalidID)
+	id := uuid.New()
+	err := s.db.InsertCategoryDB(ctx, domain.Category{
+		ID:          uuid.New(),
+		Title:       c.Title,
+		Description: c.Description,
+		Tag:         c.Tag,
+	})
+	if err != nil {
+		//return uuid.Nil, apperror.New(apperror.BadRequest, apperror.ErrorInvalidID)
+		return uuid.Nil, err
+	}
+
+	return id, nil
 }
 
 // ReadCategory Получение категории.
