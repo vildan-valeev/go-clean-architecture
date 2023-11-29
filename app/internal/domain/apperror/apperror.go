@@ -109,7 +109,7 @@ func (e *AppError) Unwrap() error {
 }
 
 func (e *AppError) Error() string {
-	return fmt.Sprintf("ERROR: Code - %d, Message - %s", e.code, e.Message)
+	return fmt.Sprintf("ERROR: Code - %d, Message - %s", e.code, e.msg)
 }
 
 func (e *AppError) StatusCode() int {
