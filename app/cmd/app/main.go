@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/rs/zerolog/log"
+	"github.com/vildan-valeev/go-clean-architecture/internal/usecase"
 	"github.com/vildan-valeev/go-clean-architecture/pkg/logger"
 	"os"
 	"os/signal"
@@ -10,12 +11,8 @@ import (
 
 	"github.com/vildan-valeev/go-clean-architecture/internal/config"
 	"github.com/vildan-valeev/go-clean-architecture/internal/repository"
-	categoryRepo "github.com/vildan-valeev/go-clean-architecture/internal/repository/category"
-	itemRepo "github.com/vildan-valeev/go-clean-architecture/internal/repository/item"
 	v1 "github.com/vildan-valeev/go-clean-architecture/internal/transport/http/v1"
 	"github.com/vildan-valeev/go-clean-architecture/internal/transport/server"
-	"github.com/vildan-valeev/go-clean-architecture/internal/usecase/category"
-	"github.com/vildan-valeev/go-clean-architecture/internal/usecase/item"
 	"github.com/vildan-valeev/go-clean-architecture/pkg/database_pg"
 	redis "github.com/vildan-valeev/go-clean-architecture/pkg/database_redis"
 )
@@ -63,9 +60,11 @@ func main() {
 // Main represents the program.
 type Main struct {
 	// DB used by postgres service implementations.
-	db db
+	pg pg
 	// Redis cache
 	rs rs
+	// Redis cache
+	mg mg
 	// HTTP server for handling communication.
 	Srv *server.Server
 }
@@ -80,11 +79,11 @@ func NewMain() *Main {
 func (m *Main) Run(ctx context.Context) (err error) {
 	cfg := config.NewConfig()
 
-	m.db = database_pg.New(cfg.DSN, cfg.LogLevel)
+	m.pg = database_pg.New(cfg.DSN, cfg.LogLevel)
 
 	m.rs = redis.New(cfg.RedisHost, cfg.RedisPort)
 
-	if err := m.db.Open(ctx); err != nil {
+	if err := m.pg.Open(ctx); err != nil {
 		return err
 	}
 
@@ -99,15 +98,19 @@ func (m *Main) Run(ctx context.Context) (err error) {
 	return m.Srv.Open()
 }
 func (m *Main) init(ctx context.Context, cfg *config.Config) error {
-	it := itemRepo.New(m.db, m.rs)
-	ct := categoryRepo.New(m.db)
-
-	itemService := item.New(it)
-	categoryService := category.New(ct)
+	repo := repository.NewRepositories(ctx, repository.Deps{
+		PG:                      m.pg,
+		RS:                      m.rs,
+		MG:                      m.mg,
+		ItemMongoCollection:     "",
+		CategoryMongoCollection: "",
+	})
+	usecases := usecase.NewUseCases(usecase.Deps{
+		Repositories: repo,
+	})
 
 	t := v1.NewTransport(v1.DI{
-		Item:     itemService,
-		Category: categoryService,
+		UseCases: usecases,
 	})
 
 	m.Srv = server.New(*cfg, t.Register())
@@ -120,23 +123,30 @@ func (m *Main) Close() (err error) {
 		err = m.Srv.Close()
 	}
 
-	if m.db != nil {
-		err = m.db.Close()
+	if m.pg != nil {
+		err = m.pg.Close()
 	}
 
 	return err
 }
 
-type db interface {
+type pg interface {
 	Open(context.Context) error
 	Close() error
 
-	repository.Database
+	repository.PG
 }
 
 type rs interface {
 	Open(context.Context) error
 	Close() error
 
-	repository.RedisCache
+	repository.RedisDB
+}
+
+type mg interface {
+	Open(context.Context) error
+	Close() error
+
+	repository.MongoDB
 }

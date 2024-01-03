@@ -1,21 +1,17 @@
 package v1
 
 import (
-	"context"
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 	_ "github.com/vildan-valeev/go-clean-architecture/docs"
-	"github.com/vildan-valeev/go-clean-architecture/internal/domain"
-	"github.com/vildan-valeev/go-clean-architecture/internal/transport/dto"
+	"github.com/vildan-valeev/go-clean-architecture/internal/usecase"
 )
 
 type Transport struct {
-	category Category
-	item     Item
+	category usecase.Category
+	item     usecase.Item
 }
 type DI struct {
-	Category Category
-	Item     Item
+	UseCases *usecase.UseCases
 }
 
 // NewTransport
@@ -31,8 +27,8 @@ type DI struct {
 // @BasePath /v1
 func NewTransport(di DI) *Transport {
 	return &Transport{
-		item:     di.Item,
-		category: di.Category,
+		item:     di.UseCases.Item,
+		category: di.UseCases.Category,
 	}
 }
 
@@ -56,17 +52,3 @@ func (t *Transport) Register() *fiber.App {
 /*
 Интерфейсы от бизнес слоя - Usecase.
 */
-
-type Category interface {
-	CreateCategory(ctx context.Context, c dto.CategoryCreateRequest) (uuid.UUID, error)
-	ReadCategory(ctx context.Context, c dto.CategoryReadRequest) (domain.Category, error)
-	UpdateCategory(ctx context.Context, c dto.CategoryUpdateRequest) error
-	DeleteCategory(ctx context.Context, c dto.CategoryDeleteRequest) error
-}
-
-type Item interface {
-	CreateItem(ctx context.Context, i dto.ItemCreateRequest) (uuid.UUID, error)
-	ReadItem(ctx context.Context, i dto.ItemReadRequest) (domain.Item, error)
-	UpdateItem(ctx context.Context, i dto.ItemUpdateRequest) error
-	DeleteItem(ctx context.Context, i dto.ItemDeleteRequest) error
-}
